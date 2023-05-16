@@ -153,6 +153,8 @@ namespace Lib.AspNetCore.Auth.Intranet.Tests
                                     await context.Response.WriteAsync(
                                         context.User.FindFirstValue(ClaimTypes.Name));
                                 }
+
+                                await next(context);
                             }));
                 }).Build();
             await host.StartAsync();

@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-        <Authors>Abdussamet Kocak</Authors>
-        <Company>AbdusCo</Company>
-        <WebPage>https://github.com/abdusco/Lib.AspNetCore.Auth.Intranet</WebPage>
-        <Description>Intranet (or IP range) auth support for ASP.NET Core 3.1+</Description>
+        <TargetFramework>net6.0</TargetFramework>
+        <Authors>Turkish Technology(Hüseyin Tekir, Onur Demirel)</Authors>
+        <Company>Turkish Tehnology</Company>
+        <WebPage>https://github.com/turkishtechnic/Lib.AspNetCore.Auth.Intranet</WebPage>
+        <Description>Intranet (or IP range) auth support for .Net Core Apps</Description>
         
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <IncludeSource>true</IncludeSource>
-        <PackageProjectUrl>https://github.com/abdusco/Lib.AspNetCore.Auth.Intranet</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/turkishtechnic/Lib.AspNetCore.Auth.Intranet</PackageProjectUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
@@ -22,8 +22,8 @@
 
 
     <ItemGroup>
-      <PackageReference Include="IPAddressRange" Version="4.*" />
-      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
+      <PackageReference Include="IPAddressRange" Version="5.0.0" />
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
