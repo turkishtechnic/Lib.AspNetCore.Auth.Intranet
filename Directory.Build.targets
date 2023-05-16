@@ -1,0 +1,13 @@
+﻿<Project>
+    <Target Name="DumpVersion" AfterTargets="MinVer">
+        <WriteLinesToFile File="$(MSBuildThisFileDirectory)/../version.txt" Lines="$(MinVerVersion)" Overwrite="true" Encoding="Unicode"  ContinueOnError="true" />
+    </Target>
+    <Target Name="SetPackageVersion" AfterTargets="MinVer">
+        <PropertyGroup>
+            <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</AssemblyVersion>
+        </PropertyGroup>
+    </Target>
+    <PropertyGroup>
+        <ExcludeFromBuild Condition="'$(IsPackable)' != 'true'">true</ExcludeFromBuild >
+    </PropertyGroup>
+</Project>

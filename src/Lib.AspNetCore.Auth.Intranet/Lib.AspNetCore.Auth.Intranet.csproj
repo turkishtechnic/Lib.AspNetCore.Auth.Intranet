@@ -2,14 +2,14 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Authors>Abdussamet Kocak</Authors>
-        <Company>AbdusCo</Company>
-        <WebPage>https://github.com/abdusco/Lib.AspNetCore.Auth.Intranet</WebPage>
-        <Description>Intranet (or IP range) auth support for ASP.NET Core 3.1+</Description>
+        <Authors>Turkish Technology(Hüseyin Tekir, Onur Demirel)</Authors>
+        <Company>Turkish Tehnology</Company>
+        <WebPage>https://github.com/turkishtechnic/Lib.AspNetCore.Auth.Intranet</WebPage>
+        <Description>Intranet (or IP range) auth support for .Net Core Apps</Description>
         
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <IncludeSource>true</IncludeSource>
-        <PackageProjectUrl>https://github.com/abdusco/Lib.AspNetCore.Auth.Intranet</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/turkishtechnic/Lib.AspNetCore.Auth.Intranet</PackageProjectUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
