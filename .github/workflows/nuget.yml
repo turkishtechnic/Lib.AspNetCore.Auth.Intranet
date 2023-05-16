@@ -18,7 +18,7 @@ jobs:
       - name: publish nuget packages
         uses: rohith/publish-nuget@v2
         with:
-          PACKAGE_NAME: "Lib.AspNetCore.Auth.Intranet"
+          PACKAGE_NAME: "TT.Lib.AspNetCore.Auth.Intranet"
           PROJECT_FILE_PATH: "./src/Lib.AspNetCore.Auth.Intranet/Lib.AspNetCore.Auth.Intranet.csproj"
           VERSION_STATIC: 1.0.0
           NUGET_KEY: ${{secrets.NUGET_TOKEN}}
