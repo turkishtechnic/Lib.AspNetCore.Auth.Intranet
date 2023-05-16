@@ -6,29 +6,37 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 
 #nullable enable
 namespace Lib.AspNetCore.Auth.Intranet
 {
-    public class IntranetAuthenticationHandler : AuthenticationHandler<IntranetAuthenticationOptions>
+    public class IntranetHandler : AuthenticationHandler<IntranetOptions>
     {
-        public IntranetAuthenticationHandler(IOptionsMonitor<IntranetAuthenticationOptions> options,
-                                             ILoggerFactory logger,
-                                             UrlEncoder encoder,
-                                             ISystemClock clock) : base(options, logger, encoder, clock)
+        public IntranetHandler(IOptionsMonitor<IntranetOptions> options,
+                               ILoggerFactory logger,
+                               UrlEncoder encoder,
+                               ISystemClock clock) : base(options, logger, encoder, clock)
         {
         }
 
-        protected new IntranetAuthenticationEvents Events
+        protected new IntranetEvents Events
         {
-            get => (IntranetAuthenticationEvents) base.Events!;
+            get => (IntranetEvents) base.Events!;
             set => base.Events = value;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            if (Options.AllowedIpRanges == null)
+            {
+                Logger.LogDebug("Allowed IP ranges isn't set");
+                return AuthenticateResult.NoResult();
+            }
+
             var messageReceivedContext = new MessageReceivedContext(Context, Scheme, Options);
             await Events.MessageReceived(messageReceivedContext);
             if (messageReceivedContext.Result != null)
@@ -36,8 +44,13 @@ namespace Lib.AspNetCore.Auth.Intranet
                 return messageReceivedContext.Result;
             }
 
-            var ipAddress = messageReceivedContext.IpAddress ?? Context.Connection.RemoteIpAddress ??
-                throw new ArgumentNullException(nameof(IPAddress), "IP address cannot be null");
+            var ipAddress = messageReceivedContext.IpAddress ?? Context.Connection.RemoteIpAddress;
+            if (ipAddress == null)
+            {
+                return AuthenticateResult.Fail(
+                    new ArgumentNullException(nameof(IPAddress), "IP address cannot be null"));
+            }
+
             var matchedRange = Options.AllowedIpRanges.FirstOrDefault(range => range.Contains(ipAddress));
             if (matchedRange == null)
             {
@@ -52,7 +65,7 @@ namespace Lib.AspNetCore.Auth.Intranet
                 return matchContext.Result;
             }
 
-            Logger.LogInformation("Connection from {IpAddress} is allowed by the range {IpRange}", ipAddress,
+            Logger.LogDebug("Connection from {IpAddress} is allowed by the range {IpRange}", ipAddress,
                 matchedRange.ToString());
             var identity = new ClaimsIdentity(Scheme.Name);
 
@@ -91,6 +104,13 @@ namespace Lib.AspNetCore.Auth.Intranet
             Logger.LogWarning("Hostname resolution for {IpAddress} timed out after {Timeout}", ipAddress,
                 Options.HostnameResolutionTimeout);
             return null;
+        }
+
+        protected override Task HandleChallengeAsync(AuthenticationProperties properties)
+        {
+            Response.StatusCode = StatusCodes.Status401Unauthorized;
+            Response.Headers.Append(HeaderNames.WWWAuthenticate, IntranetDefaults.AuthenticationScheme);
+            return Task.CompletedTask;
         }
     }
 }
